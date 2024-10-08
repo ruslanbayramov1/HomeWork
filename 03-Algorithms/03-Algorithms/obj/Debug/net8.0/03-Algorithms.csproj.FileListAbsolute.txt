@@ -1,0 +1,14 @@
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\bin\Debug\net8.0\03-Algorithms.exe
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\bin\Debug\net8.0\03-Algorithms.deps.json
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\bin\Debug\net8.0\03-Algorithms.runtimeconfig.json
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\bin\Debug\net8.0\03-Algorithms.dll
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\bin\Debug\net8.0\03-Algorithms.pdb
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\obj\Debug\net8.0\03-Algorithms.GeneratedMSBuildEditorConfig.editorconfig
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\obj\Debug\net8.0\03-Algorithms.AssemblyInfoInputs.cache
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\obj\Debug\net8.0\03-Algorithms.AssemblyInfo.cs
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\obj\Debug\net8.0\03-Algorithms.csproj.CoreCompileInputs.cache
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\obj\Debug\net8.0\03-Algorithms.dll
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\obj\Debug\net8.0\refint\03-Algorithms.dll
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\obj\Debug\net8.0\03-Algorithms.pdb
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\obj\Debug\net8.0\03-Algorithms.genruntimeconfig.cache
+C:\AB108\home-tasks\03-Algorithms\03-Algorithms\obj\Debug\net8.0\ref\03-Algorithms.dll
