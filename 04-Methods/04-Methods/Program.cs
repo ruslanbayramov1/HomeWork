@@ -101,40 +101,47 @@ namespace _04_Methods
             return multi;
         }
 
-        static string NameChecker(string name, string surname = "", string fatherName = "")
+        static string NameChecker(string name)
         {
             string str = "";
-            if (name != "" && surname == "" && fatherName == "") // if only have name
+
+            foreach (char s in name)
             {
-                foreach (char s in name)
-                {
-                    str += s;
-                }
+                str += s;
             }
-            else if (name != "" && surname != "" && fatherName == "") // if have both name abd surname
+            return str;
+        }
+
+        static string NameChecker(string name, string surname)
+        {
+            string str = "";
+
+            foreach (char c in surname)
             {
-                foreach (char c in surname)
-                {
-                    str += c;
-                }
-                str += ' '; // adding space between them
-                foreach (char s in name)
-                {
-                    str += s;
-                }
+                str += c;
             }
-            else if (name != "" && surname != "" && fatherName != "") // if have all of them
+            str += ' '; // adding space between them
+            foreach (char s in name)
             {
-                str = name[0] + "."; // selecting first letter of name and adding . to it (R.)
-                foreach (char c in surname)
-                { 
-                    str += c;
-                }
-                str += ' '; // adding space between them
-                foreach (char s in fatherName)
-                {
-                    str += s;
-                }
+                str += s;
+            }
+
+            return str;
+        }
+
+        static string NameChecker(string name, string surname , string fatherName)
+        {
+            string str = "";
+
+            str = name[0] + "."; // selecting first letter of name and adding . to it (R.)
+            foreach (char c in surname)
+            {
+                str += c;
+            }
+            str += ' '; // adding space between them
+            foreach (char s in fatherName)
+            {
+                str += s;
             }
 
             return str;
