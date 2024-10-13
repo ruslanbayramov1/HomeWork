@@ -28,8 +28,7 @@ namespace _04_Methods
             double calcPow = CustomPow(4, 3);
             Console.WriteLine($"Result of Pow will be: {calcPow}");
 
-            string finalName = NameChecker("Ruslan", "Bayramov", "Yaqub");
-            Console.WriteLine($"The name at the end is: {finalName}");
+            NameChecker("Ruslan", "Bayramov", "Yaqub");
         }
 
         static double Area(double radius)
@@ -101,50 +100,19 @@ namespace _04_Methods
             return multi;
         }
 
-        static string NameChecker(string name)
+        static void NameChecker(string name)
         {
-            string str = "";
-
-            foreach (char s in name)
-            {
-                str += s;
-            }
-            return str;
+            Console.WriteLine(name);
         }
 
-        static string NameChecker(string name, string surname)
+        static void NameChecker(string name, string surname)
         {
-            string str = "";
-
-            foreach (char c in surname)
-            {
-                str += c;
-            }
-            str += ' '; // adding space between them
-            foreach (char s in name)
-            {
-                str += s;
-            }
-
-            return str;
+            Console.WriteLine($"{surname} {name}");
         }
 
-        static string NameChecker(string name, string surname , string fatherName)
+        static void NameChecker(string name, string surname , string fatherName)
         {
-            string str = "";
-
-            str = name[0] + "."; // selecting first letter of name and adding . to it (R.)
-            foreach (char c in surname)
-            {
-                str += c;
-            }
-            str += ' '; // adding space between them
-            foreach (char s in fatherName)
-            {
-                str += s;
-            }
-
-            return str;
+            Console.WriteLine($"{name[0]}.{surname} {fatherName}");
         }
     }
 }
