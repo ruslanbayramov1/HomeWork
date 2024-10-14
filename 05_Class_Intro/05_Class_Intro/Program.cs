@@ -24,14 +24,14 @@ namespace _05_Class_Intro
             PrintProducts(allProducts, 1.49, 3.49);
         }
 
-        static void PrintProducts(Product[] givenProducts, double minValue, double maxValue)
+        static void PrintProducts(Product[] givenProducts, double minPrice, double maxPrice)
         {
             int count = 1;
             foreach (Product product in givenProducts)
             {
-                if (product.Price <= maxValue && product.Price >= minValue)
+                if (product.Price <= maxPrice && product.Price >= minPrice)
                 { 
-                    Console.WriteLine($"{count}.\nName: {product.Name}\nBrandName: {product.BrandName}\nPrice: {product.Price}.\n");
+                    Console.WriteLine($"{count}.\nName: {product.Name}\nBrandName: {product.BrandName}\nPrice: {product.Price}\n");
                     count++;
                 }
             }
