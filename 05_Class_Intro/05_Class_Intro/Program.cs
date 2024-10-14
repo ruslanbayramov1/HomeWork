@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _05_Class_Intro
 {
@@ -11,8 +7,8 @@ namespace _05_Class_Intro
         static void Main(string[] args)
         {
 
-            Product[] allProducts = 
-            { 
+            Product[] allProducts =
+            {
                 new Product("Classic Coke", "Coca-Cola", 1.99),
                 new Product("Cool Ranch Doritos", "Doritos", 3.49),
                 new Product("Rice Krispies Cereal", "Kellogg's", 4.99),
@@ -30,7 +26,7 @@ namespace _05_Class_Intro
             foreach (Product product in givenProducts)
             {
                 if (product.Price <= maxPrice && product.Price >= minPrice)
-                { 
+                {
                     Console.WriteLine($"{count}.\nName: {product.Name}\nBrandName: {product.BrandName}\nPrice: {product.Price}\n");
                     count++;
                 }
