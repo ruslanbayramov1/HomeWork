@@ -46,11 +46,10 @@ class MeetingSchedule
             isFrom = from >= meeting.FromDate && meeting.ToDate >= from;
             isTo = to >= meeting.FromDate && meeting.ToDate >= to;
             if (isFrom || isTo)
-            { 
-                isTo = false; // resetting values
-                isFrom = false;
                 throw new ReservedDateIntervalException($"We already have meeting for this time: {{ Name: {meeting.Name}, From: {meeting.FromDate.Date}, To: {meeting.ToDate.Date} }}");
-            }
+
+            isTo = false; // resetting values
+            isFrom = false;
         }
 
         Meeting newMeeting = new(name, from, to);
