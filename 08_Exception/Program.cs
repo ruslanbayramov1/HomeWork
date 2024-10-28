@@ -12,7 +12,7 @@
                 Console.WriteLine(mainSchedule.Meetings[0]);
                 Console.WriteLine(mainSchedule.Meetings[1]);
 
-                mainSchedule.SetMeeting("Sep. Second Meeting", new DateTime(2024, 09, 20), new DateTime(2024, 09, 25)); // reserved date error
+                mainSchedule.SetMeeting("Sep. Second Meeting", new DateTime(2024, 09, 10), new DateTime(2024, 09, 15)); // reserved date error
                 mainSchedule.SetMeeting("Nov. Meeting", new DateTime(2024, 11, 14), new DateTime(2024, 11, 13)); // wrong date error
             }
             catch (ReservedDateIntervalException ex)

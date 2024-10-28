@@ -39,9 +39,13 @@ class MeetingSchedule
 
     public void SetMeeting(string name, DateTime from, DateTime to)
     {
+        bool isFrom = false;
+        bool isTo = false;
         foreach (Meeting meeting in Meetings)
         {
-            if (from >= meeting.FromDate && meeting.ToDate >= from)
+            isFrom = from >= meeting.FromDate && meeting.ToDate >= from;
+            isTo = to >= meeting.FromDate && meeting.ToDate >= to;
+            if (isFrom || isTo)
                 throw new ReservedDateIntervalException($"We already have meeting for this time: {{ Name: {meeting.Name}, From: {meeting.FromDate.Date}, To: {meeting.ToDate.Date} }}");
         }
 
