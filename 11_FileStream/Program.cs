@@ -14,9 +14,7 @@
                 Add("Jim").Wait();
                 Add("Adam").Wait();
 
-                Task<bool> task2 = Exist("John");
-                task2.Wait();
-                Console.WriteLine(task2.Result);
+                Console.WriteLine(Exist("John").Result);
 
                 Update(1, "Jimmie").Wait();
                 Delete(0).Wait();
