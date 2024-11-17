@@ -2,6 +2,7 @@
 using _13_EFCore.Exceptions;
 using _13_EFCore.Extensions;
 using _13_EFCore.Models;
+using Azure;
 
 namespace _13_EFCore
 {
@@ -164,7 +165,8 @@ namespace _13_EFCore
         {
             #region Explanation
             // enter name and username, check if they exists in database, if not throw exception
-            // if exists, login and return user (needs to select its Id to do operations based on user id)
+            // if exists, login and return user to save it at the top level (user variable line 34)
+            // the information at top level will be used for operations requires userId for ex: AddToBasket, ShowUserProducts
             #endregion
             using (AppDbContext context = new AppDbContext())
             { 
@@ -217,8 +219,9 @@ namespace _13_EFCore
         public static void AddToBasket(int usId, int prId)
         {
             #region Explanation
-            // check if given id is valid for products, if id is not true throw exception
-            // if id is valid based on user id which we take in login procces, add it to baskets which have relations
+            // check if given product id(prId) is valid for products, if not throw exception
+            // if product id is valid, add it to baskets with user id(usId) and product id(prId)
+            // it takes user id from top level variable (user at line 34) when we log in, it saves user info and reuse it for operations needs user id like this
             // save changes
             #endregion
             using (AppDbContext context = new AppDbContext())
@@ -245,7 +248,7 @@ namespace _13_EFCore
         {
             #region Explanation
             // join baskets with products ON id, then return products but not their original id, instead id in basket (location)
-            // because 2 same products have same productId but not same basketId
+            // because 2 same products can have same product id, but not same basketId
             #endregion
             using (AppDbContext context = new AppDbContext())
             {
@@ -266,8 +269,11 @@ namespace _13_EFCore
         public static bool RemoveFromBasket(int usId, int prBskId)
         {
             #region Explanation
-            // return products based on userid, user need to enter products basket id. if not true, throw exception
-            // if true, delete id based on id and save changes
+            // return products based on userid
+            // Doing search operation FirstOrDefault on user's products is crucial, it prevents user to delete product from someone else's basket
+            // if its a invalid id throw exception
+            // if true, delete product based on id which is products basket id
+            // save changes
             #endregion
             var products = ShowUserProducts(usId);
             using (AppDbContext context = new AppDbContext())
