@@ -1,8 +1,8 @@
-﻿using _13_EFCore.Contexts;
-using _13_EFCore.Exceptions;
+﻿using _13_EFCore.Exceptions;
 using _13_EFCore.Extensions;
 using _13_EFCore.Models;
-using Azure;
+using _13_EFCore.Repositories.Abstractions;
+using _13_EFCore.Repositories.Implements;
 
 namespace _13_EFCore
 {
@@ -34,12 +34,16 @@ namespace _13_EFCore
             string surname;
             User user = new User();
 
+            IUserRepository userRep = new UserRepository();
+            IProductRepository prodRep = new ProductRepository();
+            IBasketRepository basketRep = new BasketRepository();
+
             while (isContinue)
             {
                 if (!isLoggedIn)
                 {
                     if (isShown)
-                    { 
+                    {
                         Console.WriteLine(loginMenu);
                     }
 
@@ -58,7 +62,7 @@ namespace _13_EFCore
 
                             try
                             {
-                                user = Login(username, password);
+                                user = userRep.Login(username, password);
                                 Console.WriteLine("Logging in...");
                                 Thread.Sleep(2000);
                                 Console.WriteLine($"Welcome {username}! \n");
@@ -82,7 +86,7 @@ namespace _13_EFCore
                             Console.Write("Enter your password: ");
                             password = Console.ReadLine()!;
 
-                            Register(name, surname, username, password);
+                            userRep.Register(name, surname, username, password);
 
                             Console.WriteLine("Creating user...");
                             Thread.Sleep(2000);
@@ -99,7 +103,7 @@ namespace _13_EFCore
                 else
                 {
                     if (isShown2)
-                    { 
+                    {
                         Console.WriteLine(userMenu);
                     }
 
@@ -110,12 +114,12 @@ namespace _13_EFCore
                     switch (code)
                     {
                         case "1":
-                            ShowAllProducts().Print();
+                            prodRep.ShowAllProducts().Print();
                             Console.Write("Enter product id to add basket: ");
                             try
                             {
                                 prodId = Convert.ToInt32(Console.ReadLine());
-                                AddToBasket(user.Id, prodId);
+                                basketRep.AddToBasket(user.Id, prodId);
                             }
                             catch (Exception ex) when (ex is ProductNotFoundException || ex is Exception)
                             {
@@ -123,7 +127,7 @@ namespace _13_EFCore
                             }
                             break;
                         case "2":
-                            if (!ShowUserProducts(user.Id).Print())
+                            if (!prodRep.ShowUserProducts(user.Id).Print())
                             {
                                 Console.WriteLine("No product to remove! Add some :)");
                                 break;
@@ -133,7 +137,7 @@ namespace _13_EFCore
                             try
                             {
                                 prodBaskId = Convert.ToInt32(Console.ReadLine());
-                                if (RemoveFromBasket(user.Id, prodBaskId))
+                                if (basketRep.RemoveFromBasket(user.Id, prodBaskId))
                                 {
                                     Console.WriteLine($"Product with id {prodBaskId} successfully removed");
                                 }
@@ -157,140 +161,6 @@ namespace _13_EFCore
                             Console.WriteLine("Invalid input!");
                             break;
                     }
-                }
-            }
-        }
-
-        public static User Login(string username, string password)
-        {
-            #region Explanation
-            // enter name and username, check if they exists in database, if not throw exception
-            // if exists, login and return user to save it at the top level (user variable line 34)
-            // the information at top level will be used for operations requires userId for ex: AddToBasket, ShowUserProducts
-            #endregion
-            using (AppDbContext context = new AppDbContext())
-            { 
-                var user = context.Users.FirstOrDefault(user => user.Username == username && user.Password == password);
-                if (user != null)
-                {
-                    return user;
-                }
-                else
-                {
-                    throw new UserNotFoundException();
-                }
-            }
-        }
-
-        public static void Register(string name, string surname, string username, string password)
-        {
-            #region Explanation
-            // add/create user based on given data.
-            // save changes
-            #endregion
-            using (AppDbContext context = new AppDbContext())
-            {
-                context.Users.Add(new User
-                {
-                    Name = name,
-                    Surname = surname,
-                    Username = username,
-                    Password = password,
-                });
-                context.SaveChanges();
-            }
-        }
-
-        public static List<Product> ShowAllProducts()
-        {
-            #region Explanation
-            // return all products because when user want to add, it needs to see all of them
-            #endregion
-            using (AppDbContext context = new AppDbContext())
-            {
-                List<Product> products = [];
-                var query = context.Products.AsQueryable();
-                products = query.ToList();
-
-                return products;
-            }
-        }
-
-        public static void AddToBasket(int usId, int prId)
-        {
-            #region Explanation
-            // check if given product id(prId) is valid for products, if not throw exception
-            // if product id is valid, add it to baskets with user id(usId) and product id(prId)
-            // it takes user id from top level variable (user at line 34) when we log in, it saves user info and reuse it for operations needs user id like this
-            // save changes
-            #endregion
-            using (AppDbContext context = new AppDbContext())
-            {
-                var pr = context.Products.FirstOrDefault(pr => pr.Id == prId);
-
-                if (pr != null)
-                {
-                    context.Baskets.Add(new Basket
-                    {
-                        ProductId = prId,
-                        UserId = usId,
-                    });
-                    context.SaveChanges();
-                }
-                else
-                {
-                    throw new ProductNotFoundException();
-                }
-            }
-        }
-
-        public static List<Product> ShowUserProducts(int usId)
-        {
-            #region Explanation
-            // join baskets with products ON id, then return products but not their original id, instead id in basket (location)
-            // because 2 same products can have same product id, but not same basketId
-            #endregion
-            using (AppDbContext context = new AppDbContext())
-            {
-                var query = context.Baskets.Where(b => b.UserId == usId).Join(context.Products, b => b.ProductId, p => p.Id, (basket, product) => new { basket, product }).AsQueryable();
-                var userBasket = query.ToList();
-
-                List<Product> products = userBasket.Select(ub => new Product
-                { 
-                    Id = ub.basket.Id,
-                    Name = ub.product.Name,
-                    Price = ub.product.Price,
-                }).ToList();
-
-                return products;
-            }
-        }
-
-        public static bool RemoveFromBasket(int usId, int prBskId)
-        {
-            #region Explanation
-            // return products based on userid
-            // Doing search operation FirstOrDefault on user's products is crucial, it prevents user to delete product from someone else's basket
-            // if its a invalid id throw exception
-            // if true, delete product based on id which is products basket id
-            // save changes
-            #endregion
-            var products = ShowUserProducts(usId);
-            using (AppDbContext context = new AppDbContext())
-            {
-                var pr = products.FirstOrDefault(p => p.Id == prBskId);
-                if (pr != null)
-                {
-                    context.Baskets.Remove(new Basket
-                    {
-                        Id = prBskId
-                    });
-                    context.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    throw new ProductNotFoundException($"Not product in basket with given id {prBskId}");
                 }
             }
         }
