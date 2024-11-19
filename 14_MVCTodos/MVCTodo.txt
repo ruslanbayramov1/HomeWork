@@ -1,0 +1,38 @@
+Todos
+Id
+Title
+Description
+Deadline
+Status
+IsDone
+
+Team
+Id
+Name
+
+Role
+Id
+Name
+
+Employee
+Id
+Name
+Surname
+Username
+Password
+TeamId
+RoleId
+HireDate
+Salary
+
+TeamTodo
+Id
+TeamId
+TodoId
+
+When login we will need to show 
+Each employee have Team id. Team id also will be used when admin wants to send task.
+
+URL/admin/Login - admin will log
+URL/Employee/Login - emloyee will log
+URL/

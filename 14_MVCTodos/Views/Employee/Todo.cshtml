@@ -1,0 +1,92 @@
+﻿<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Todos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .detail-row {
+            display: none;
+            background-color: #f9f9f9;
+        }
+
+            .detail-row td {
+                padding: 10px;
+                border-top: 1px solid #ddd;
+            }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Welcome to Todos</h1>
+
+        @if (Model.Count == 0)
+        {
+            <div class="alert alert-info text-center">You have no tasks :)</div>
+        }
+        else
+        {
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Title</th>
+                        <th>Deadline</th>
+                        <th>Look</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var data in Model)
+                    {
+                        <tr>
+                            <td>@data.Todos.Title</td>
+                            <td>@data.Todos.Deadline.ToString("yyyy-MM-dd hh:mm")</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" onclick="toggleDetail(@data.Id)">Look</button>
+                            </td>
+                            <td>
+                                @if (data.Todos.Status?.ToLower() == "failed")
+                                {
+                                    <a style="text-decoration:none" class="btn btn-danger btn-sm">Failed</a>
+                                }
+                                @if (data.Todos.Status?.ToLower() == "pending")
+                                {
+                                    <a style="text-decoration:none" href="/Employee/Update/@data.Todos.Id" class="btn btn-warning btn-sm">Turn in</a>
+                                }
+                                @if (data.Todos.Status?.ToLower() == "success")
+                                {
+                                    <a style="text-decoration:none" class="btn btn-success btn-sm">Completed</a>
+                                }
+                            </td>
+                        </tr>
+
+                        <tr id="detail-row-@data.Id" class="detail-row">
+                            <td colspan="5">
+                                <div class="p-3 bg-light">
+                                    <strong>Description:</strong>
+                                    <p>@data.Todos.Description</p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function toggleDetail(id) {
+            var detailRow = document.getElementById("detail-row-" + id);
+
+            if (detailRow.style.display === "table-row") {
+                detailRow.style.display = "none";
+            } else {
+                detailRow.style.display = "table-row";
+            }
+        }
+    </script>
+</body>
+
+</html>
